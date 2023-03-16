@@ -1,0 +1,54 @@
+---
+title: "BIOL432_Assignment8"
+author: "Sam Boots"
+date: "15/03/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+[GitHub repository](https://github.com/SBootss/BIOL432_Assignment8)
+
+# Setup
+
+Loading libraries:
+```{r}
+library(dplyr) # For data management
+library(ggplot2) # For data visualization
+library(ape)
+library(ggtree)
+library(vegan) # tools for analyzing community ecology
+```
+
+Set default plotting theme:
+```{r}
+source("http://bit.ly/theme_pub")
+theme_set(theme_pub())
+```
+
+Importing data:
+
+```{r}
+Data<-read.csv("./data/FloristicSurvey.csv") # importing dataset from csv (results of a floristic survey perfomed by a MSc student at Queens University Biological Station (QUBS))
+```
+
+# Checking dataset structure
+
+```{r}
+head(Data) # checking column names and variable types
+```
+# ANALYSIS
+
+how the communities of plants differ across sample locations (versus tutorial, how communities of bacteria are associated w/ plant samples) 
+
+dataset: results of a floristic survey at the Queen’s University Biological Station (QUBS).
+
+QUESTIONS:
+
+What effect (if any) does garlic mustard have on the plant community?
+
+What has a stronger effect on plant communities: the presence/absence of garlic mustard (in/out) or sampling population?
+
+Use at least one visualization for each question above and explain your reasoning.
