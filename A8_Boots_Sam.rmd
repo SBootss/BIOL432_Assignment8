@@ -31,24 +31,53 @@ theme_set(theme_pub())
 Importing data:
 
 ```{r}
-Data<-read.csv("./data/FloristicSurvey.csv") # importing dataset from csv (results of a floristic survey perfomed by a MSc student at Queens University Biological Station (QUBS))
+FlorDat<-read.csv("./data/FloristicSurvey.csv") # importing dataset from csv (results of a floristic survey perfomed by a MSc student at Queens University Biological Station (QUBS))
 ```
 
-# Checking dataset structure
+# Checking dataset structure and for NA values
+
+Checking column names and variable types:
 
 ```{r}
-head(Data) # checking column names and variable types
+head(FlorDat)
 ```
-# ANALYSIS
 
-how the communities of plants differ across sample locations (versus tutorial, how communities of bacteria are associated w/ plant samples) 
+Checking for NA values:
 
-dataset: results of a floristic survey at the Queen’s University Biological Station (QUBS).
+```{r}
+sum(is.na(FlorDat))
+```
 
-QUESTIONS:
+# Modifying dataset
 
-What effect (if any) does garlic mustard have on the plant community?
+## Removing and renaming columns
 
-What has a stronger effect on plant communities: the presence/absence of garlic mustard (in/out) or sampling population?
+Quadrate number and the counts for garlic mustard in different stages of life are not needed in further analysis, as we are interested in Sampling location and the presence and absence of garlic mustard, rather than it's abundance. "Location" was renamed to "Garlic_Mustard" to make it consistent with the later columns when converted to binary:
 
-Use at least one visualization for each question above and explain your reasoning.
+```{r}
+FlorDat %>%
+  select(2:3,11:44) %>% # removing columns
+  rename("Garlic_Mustard"="Location") -> FlorDat2# renaming column
+```
+# Converting to binary matrix
+
+## For Garlic Mustard Column
+
+Changing "o" to 0 and "i" to 1, representing Garlic Mustard's presence or absence. 
+
+```{r}
+FlorDat2 %>%
+  mutate(Garlic_Mustard=ifelse(Garlic_Mustard=="o",as.integer("0"),as.integer("1"))) -> FlorDat3 
+head(FlorDat3)
+```
+
+## For remaining columns
+
+```{r}
+FlorDat3[,c(3:36)][FlorDat3[,c(3:36)] > 0] <- 1
+head(FlorDat3) # checking correctly converted to binary matrix, leaving population column
+```
+
+
+
+
